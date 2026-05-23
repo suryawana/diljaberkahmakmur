@@ -42,7 +42,7 @@ class ChatbotController extends Controller
                 'reply' => $response,
             ]);
         } catch (\Exception $e) {
-            Log::error('Chatbot error: ' . $e->getMessage());
+            Log::error('Chatbot error: '.$e->getMessage());
 
             return response()->json([
                 'reply' => 'Maaf, terjadi gangguan pada sistem kami. Silakan hubungi kami langsung melalui WhatsApp untuk bantuan lebih lanjut. 🙏',
@@ -62,13 +62,13 @@ class ChatbotController extends Controller
         $company = Company::first();
         if ($company) {
             $parts[] = "## Info Perusahaan\n"
-                . "Nama: {$company->name}\n"
-                . "Deskripsi: {$company->description}\n"
-                . "Tentang: {$company->about}\n"
-                . "Telepon: {$company->phone}\n"
-                . "Email: {$company->email}\n"
-                . "Alamat: {$company->address}\n"
-                . "WhatsApp: {$company->whatsapp_number}";
+                ."Nama: {$company->name}\n"
+                ."Deskripsi: {$company->description}\n"
+                ."Tentang: {$company->about}\n"
+                ."Telepon: {$company->phone}\n"
+                ."Email: {$company->email}\n"
+                ."Alamat: {$company->address}\n"
+                ."WhatsApp: {$company->whatsapp_number}";
         }
 
         // Categories (compact list)
@@ -77,7 +77,7 @@ class ChatbotController extends Controller
             $catLines = $categories->map(function ($cat) {
                 $sub = $cat->children->pluck('name')->join(', ');
 
-                return "- {$cat->name}" . ($sub ? " (sub: {$sub})" : '');
+                return "- {$cat->name}".($sub ? " (sub: {$sub})" : '');
             })->join("\n");
             $parts[] = "## Kategori Produk\n{$catLines}";
         }
@@ -195,7 +195,7 @@ PROMPT;
                 'contents' => $contents,
                 'generationConfig' => [
                     'temperature' => 0.7,
-                    'maxOutputTokens' => 256,
+                    'maxOutputTokens' => 400,
                     'topP' => 0.9,
                 ],
             ]

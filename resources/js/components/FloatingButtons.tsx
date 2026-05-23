@@ -10,7 +10,15 @@ const WhatsAppIcon = ({ className }: { className?: string }) => (
 
 /* ── Chatbot Icon ── */
 const ChatbotIcon = ({ className }: { className?: string }) => (
-    <svg viewBox="0 0 24 24" className={className} fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+    <svg
+        viewBox="0 0 24 24"
+        className={className}
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+    >
         <path d="M12 2a7 7 0 0 1 7 7v1a7 7 0 0 1-14 0V9a7 7 0 0 1 7-7z" />
         <circle cx="9.5" cy="9.5" r="1" fill="currentColor" stroke="none" />
         <circle cx="14.5" cy="9.5" r="1" fill="currentColor" stroke="none" />
@@ -48,6 +56,35 @@ const QUICK_REPLIES = [
     'Bagaimana cara pemesanan?',
     'Apakah tersedia di e-Katalog?',
 ];
+
+/* ── Message formatting: convert simple Markdown-like syntax to HTML ── */
+const escapeHtml = (str: string) =>
+    str
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+
+const formatMessage = (text: string) => {
+    if (!text) return '';
+    // Escape to prevent injection
+    let out = escapeHtml(text);
+
+    // Bold: **bold** -> <strong>bold</strong>
+    out = out.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+
+    // Italic: *italic* -> <em>italic</em>
+    out = out.replace(/\*(.+?)\*/g, '<em>$1</em>');
+
+    // Strikethrough: ~~strike~~ -> <del>strike</del>
+    out = out.replace(/~~(.+?)~~/g, '<del>$1</del>');
+
+    // Convert newlines to <br>
+    out = out.replace(/\r\n|\r|\n/g, '<br/>');
+
+    return out;
+};
 
 /* ══════════════════════════════════════════
    MAIN COMPONENT
@@ -226,14 +263,15 @@ const FloatingButtons: React.FC<FloatingButtonsProps> = ({
                                     className={`flex ${msg.sender === 'user' ? 'justify-end' : 'justify-start'}`}
                                 >
                                     <div
-                                        className={`max-w-[80%] rounded-2xl px-4 py-2.5 text-sm leading-relaxed whitespace-pre-line ${
+                                        className={`max-w-[80%] rounded-2xl px-4 py-2.5 text-sm leading-relaxed ${
                                             msg.sender === 'user'
                                                 ? 'rounded-br-md bg-blue-600 text-white'
                                                 : 'rounded-bl-md bg-white text-gray-700 shadow-sm ring-1 ring-gray-100'
                                         }`}
-                                    >
-                                        {msg.text}
-                                    </div>
+                                        dangerouslySetInnerHTML={{
+                                            __html: formatMessage(msg.text),
+                                        }}
+                                    />
                                 </motion.div>
                             ))}
 
@@ -282,7 +320,7 @@ const FloatingButtons: React.FC<FloatingButtonsProps> = ({
                                 onChange={(e) => setInputValue(e.target.value)}
                                 placeholder="Ketik pesan..."
                                 disabled={isTyping}
-                                className="flex-1 rounded-full border border-gray-200 bg-gray-50 px-4 py-2 text-sm text-gray-800 outline-none transition-colors placeholder:text-gray-400 focus:border-blue-400 focus:bg-white focus:ring-2 focus:ring-blue-100 disabled:opacity-60"
+                                className="flex-1 rounded-full border border-gray-200 bg-gray-50 px-4 py-2 text-sm text-gray-800 transition-colors outline-none placeholder:text-gray-400 focus:border-blue-400 focus:bg-white focus:ring-2 focus:ring-blue-100 disabled:opacity-60"
                             />
                             <button
                                 type="submit"
