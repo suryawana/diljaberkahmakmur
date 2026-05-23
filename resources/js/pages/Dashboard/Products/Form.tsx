@@ -121,7 +121,7 @@ export default function ProductForm({
     const onSubmit = (e: React.FormEvent) => {
         e.preventDefault();
         if (isEdit) {
-            post(`/dashboard/products/${product.id}`, {
+            post(`/dashboard/products/${product.id}/update`, {
                 forceFormData: true,
                 preserveScroll: true,
                 onError: (err) => {
@@ -651,18 +651,18 @@ export default function ProductForm({
                                             </div>
                                             {(getMainImageUrl() ||
                                                 data.main_image) && (
-                                                <Button
-                                                    type="button"
-                                                    variant="destructive"
-                                                    size="icon"
-                                                    className="absolute -top-2 -right-2 h-6 w-6"
-                                                    onClick={
-                                                        handleRemoveMainImage
-                                                    }
-                                                >
-                                                    <X className="h-3 w-3" />
-                                                </Button>
-                                            )}
+                                                    <Button
+                                                        type="button"
+                                                        variant="destructive"
+                                                        size="icon"
+                                                        className="absolute -top-2 -right-2 h-6 w-6"
+                                                        onClick={
+                                                            handleRemoveMainImage
+                                                        }
+                                                    >
+                                                        <X className="h-3 w-3" />
+                                                    </Button>
+                                                )}
                                         </div>
 
                                         {/* Upload Controls */}

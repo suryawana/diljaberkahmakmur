@@ -66,15 +66,14 @@ Route::prefix('dashboard')->as('dashboard.')->group(function () {
     Route::delete('/brands/{brand}/logo', [ProductBrandController::class, 'deleteLogo'])
         ->name('brands.logo.delete');
 
-    Route::post('/products/{product}', [ProductController::class, 'update'])
-        ->name('products.update');
+    Route::put('/products/{product}/update', [ProductController::class, 'update']);
     Route::resource('products', ProductController::class)->except(['update']);
     Route::delete('/products/{product}/main-image', [ProductController::class, 'deleteMainImage'])
         ->name('products.main-image.delete');
     Route::delete('/products/{productImage}/additional-image', [ProductController::class, 'deleteAdditionalImage'])
         ->name('products.additional-image.delete');
 
-    Route::post('/articles/{article}', [ArticleController::class, 'update'])
+    Route::put('/articles/{article}/update', [ArticleController::class, 'update'])
         ->name('articles.update');
     Route::resource('articles', ArticleController::class)->except(['update']);
     Route::delete('/articles/{article}/image', [ArticleController::class, 'deleteImage'])
