@@ -46,10 +46,10 @@ const PartnersSection: React.FC<PartnersSectionProps> = ({ partners }) => {
                                     <img
                                         src={`/storage/${partner.logo}`}
                                         alt={partner.name}
-                                        className="h-16 w-auto object-contain grayscale transition-all duration-300 hover:grayscale-0"
+                                        className="h-16 w-auto object-contain transition-all duration-300"
                                     />
                                 )}
-                                <span className="text-center text-sm font-medium text-gray-600">
+                                <span className="text-center text-sm font-medium text-gray-900">
                                     {partner.name}
                                 </span>
                             </a>
