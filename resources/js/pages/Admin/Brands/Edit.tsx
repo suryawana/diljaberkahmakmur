@@ -33,11 +33,11 @@ interface BrandEditProps {
 }
 
 const breadcrumbs: BreadcrumbItem[] = [
-    { title: 'Dashboard', href: '/dashboard' },
-    { title: 'Merek', href: '/dashboard/brands' },
+    { title: 'Admin', href: '/admin' },
+    { title: 'Merek', href: '/admin/brands' },
     {
         title: 'Edit Merek',
-        href: `/dashboard/brands/${typeof window !== 'undefined' ? window.location.pathname.split('/').pop() : ''}/edit`,
+        href: `/admin/brands/${typeof window !== 'undefined' ? window.location.pathname.split('/').pop() : ''}/edit`,
     },
 ];
 
@@ -57,7 +57,7 @@ export default function BrandEdit({ brand }: BrandEditProps) {
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        post(`/dashboard/brands/${brand.id}`);
+        post(`/admin/brands/${brand.id}`);
     };
 
     const handleLogoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -88,7 +88,7 @@ export default function BrandEdit({ brand }: BrandEditProps) {
                 <div className="flex items-center justify-between space-y-2">
                     <div className="flex items-center space-x-3">
                         <Button asChild variant="ghost" size="icon">
-                            <Link href="/dashboard/brands">
+                            <Link href="/admin/brands">
                                 <ArrowLeft className="h-4 w-4" />
                             </Link>
                         </Button>
@@ -198,8 +198,8 @@ export default function BrandEdit({ brand }: BrandEditProps) {
                                                     </p>
                                                 )}
                                                 <p className="mt-1 text-sm text-muted-foreground">
-                                                    Format: JPEG, PNG, JPG,
-                                                    GIF, SVG. Maks 2MB.
+                                                    Format: JPEG, PNG, JPG, GIF,
+                                                    SVG. Maks 2MB.
                                                 </p>
                                             </div>
                                         </div>
@@ -243,7 +243,9 @@ export default function BrandEdit({ brand }: BrandEditProps) {
 
                                     {/* Website */}
                                     <div className="space-y-2">
-                                        <Label htmlFor="website">Situs Web</Label>
+                                        <Label htmlFor="website">
+                                            Situs Web
+                                        </Label>
                                         <Input
                                             id="website"
                                             type="url"
@@ -286,7 +288,8 @@ export default function BrandEdit({ brand }: BrandEditProps) {
                                             placeholder="0"
                                         />
                                         <p className="text-sm text-muted-foreground">
-                                            Urutan tampilan (angka lebih rendah muncul lebih dulu)
+                                            Urutan tampilan (angka lebih rendah
+                                            muncul lebih dulu)
                                         </p>
                                     </div>
 
@@ -300,7 +303,8 @@ export default function BrandEdit({ brand }: BrandEditProps) {
                                                 Status Aktif
                                             </Label>
                                             <p className="text-sm text-muted-foreground">
-                                                Merek akan terlihat di halaman depan jika aktif
+                                                Merek akan terlihat di halaman
+                                                depan jika aktif
                                             </p>
                                         </div>
                                         <Switch
@@ -349,9 +353,11 @@ export default function BrandEdit({ brand }: BrandEditProps) {
                                 <div>
                                     <p className="font-medium">Dibuat</p>
                                     <p className="text-muted-foreground">
-                                        {brand.created_at ? new Date(
-                                            brand.created_at,
-                                        ).toLocaleDateString() : '-'}
+                                        {brand.created_at
+                                            ? new Date(
+                                                  brand.created_at,
+                                              ).toLocaleDateString()
+                                            : '-'}
                                     </p>
                                 </div>
                                 <div>
