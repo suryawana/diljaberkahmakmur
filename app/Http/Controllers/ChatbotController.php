@@ -16,7 +16,7 @@ class ChatbotController extends Controller
 {
     /**
      * Handle incoming chatbot message.
-     * Fetches DB context (cached), sends to Gemini, returns reply.
+     * Fetches DB context (cached), sends to Groq, returns reply.
      */
     public function chat(Request $request): JsonResponse
     {
@@ -34,9 +34,9 @@ class ChatbotController extends Controller
                 return $this->buildContext();
             });
 
-            // Build Gemini request
+            // Build Groq request
             $systemPrompt = $this->buildSystemPrompt($context);
-            $response = $this->callGemini($systemPrompt, $history, $userMessage);
+            $response = $this->callGroq($systemPrompt, $history, $userMessage);
 
             return response()->json([
                 'reply' => $response,
@@ -52,7 +52,7 @@ class ChatbotController extends Controller
 
     /**
      * Build compact context string from database.
-     * Kept minimal to save Gemini tokens.
+     * Kept minimal to save tokens.
      */
     private function buildContext(): string
     {
@@ -111,7 +111,7 @@ class ChatbotController extends Controller
     }
 
     /**
-     * Build the system prompt for Gemini.
+     * Build the system prompt for Groq.
      */
     private function buildSystemPrompt(string $context): string
     {
@@ -134,71 +134,69 @@ PROMPT;
     }
 
     /**
-     * Call Gemini API with conversation history.
+     * Call Groq API with conversation history.
      */
-    private function callGemini(string $systemPrompt, array $history, string $userMessage): string
+    private function callGroq(string $systemPrompt, array $history, string $userMessage): string
     {
-        $apiKey = config('services.gemini.api_key');
+        $apiKey = config('services.groq.api_key');
 
-        // Build contents array with history (for multi-turn)
-        $contents = [];
+        // Build messages array (OpenAI-compatible format)
+        $messages = [
+            ['role' => 'system', 'content' => $systemPrompt],
+        ];
 
         // Add recent conversation history (max last 6 turns to save tokens)
         $recentHistory = array_slice($history, -6);
         foreach ($recentHistory as $turn) {
-            $role = ($turn['sender'] ?? 'user') === 'bot' ? 'model' : 'user';
-            $contents[] = [
+            $role = ($turn['sender'] ?? 'user') === 'bot' ? 'assistant' : 'user';
+            $messages[] = [
                 'role' => $role,
-                'parts' => [['text' => $turn['text'] ?? '']],
+                'content' => $turn['text'] ?? '',
             ];
         }
 
         // Add current user message
-        $contents[] = [
+        $messages[] = [
             'role' => 'user',
-            'parts' => [['text' => $userMessage]],
+            'content' => $userMessage,
         ];
 
-        $response = $this->makeGeminiRequest($apiKey, $systemPrompt, $contents);
+        $response = $this->makeGroqRequest($apiKey, $messages);
 
         // Retry once on rate limit (429) after waiting
         if ($response->status() === 429) {
             sleep(10);
-            $response = $this->makeGeminiRequest($apiKey, $systemPrompt, $contents);
+            $response = $this->makeGroqRequest($apiKey, $messages);
         }
 
         if ($response->failed()) {
-            Log::error('Gemini API error', [
+            Log::error('Groq API error', [
                 'status' => $response->status(),
                 'body' => $response->body(),
             ]);
-            throw new \RuntimeException('Gemini API call failed');
+            throw new \RuntimeException('Groq API call failed');
         }
 
         $data = $response->json();
 
-        return $data['candidates'][0]['content']['parts'][0]['text']
+        return $data['choices'][0]['message']['content']
             ?? 'Maaf, saya tidak bisa memproses permintaan saat ini.';
     }
 
     /**
-     * Make the actual HTTP request to Gemini API.
+     * Make the actual HTTP request to Groq API.
      */
-    private function makeGeminiRequest(string $apiKey, string $systemPrompt, array $contents)
+    private function makeGroqRequest(string $apiKey, array $messages)
     {
-        return Http::timeout(30)->post(
-            "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key={$apiKey}",
-            [
-                'system_instruction' => [
-                    'parts' => [['text' => $systemPrompt]],
-                ],
-                'contents' => $contents,
-                'generationConfig' => [
-                    'temperature' => 0.7,
-                    'maxOutputTokens' => 400,
-                    'topP' => 0.9,
-                ],
-            ]
-        );
+        return Http::timeout(30)->withHeaders([
+            'Authorization' => 'Bearer '.$apiKey,
+            'Content-Type' => 'application/json',
+        ])->post('https://api.groq.com/openai/v1/chat/completions', [
+            'model' => 'llama-3.3-70b-versatile',
+            'messages' => $messages,
+            'temperature' => 0.7,
+            'max_tokens' => 800,
+            'top_p' => 0.9,
+        ]);
     }
 }
