@@ -18,6 +18,7 @@ export interface Product {
   name: string;
   slug: string;
   description: string;
+  price: number | null;
   main_image: string;
   brand?: string;
   categories: string[];

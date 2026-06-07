@@ -35,6 +35,7 @@ interface Product {
     name: string;
     slug: string;
     description: string;
+    price: number | null;
     main_image: string;
     is_active: boolean;
     is_available_online: boolean;
@@ -156,6 +157,7 @@ export default function ProductsIndex({ products }: ProductsIndexProps) {
                                         </div>
                                     </TableHead>
                                     <TableHead>Merek</TableHead>
+                                    <TableHead>Harga</TableHead>
                                     <TableHead>Kategori</TableHead>
                                     <TableHead>Gambar</TableHead>
                                     <TableHead>Status</TableHead>
@@ -208,6 +210,15 @@ export default function ProductsIndex({ products }: ProductsIndexProps) {
                                                 <span className="text-muted-foreground">
                                                     —
                                                 </span>
+                                            )}
+                                        </TableCell>
+                                        <TableCell>
+                                            {product.price ? (
+                                                <span className="font-medium">
+                                                    Rp {Number(product.price).toLocaleString('id-ID')}
+                                                </span>
+                                            ) : (
+                                                <span className="text-muted-foreground">—</span>
                                             )}
                                         </TableCell>
                                         <TableCell>

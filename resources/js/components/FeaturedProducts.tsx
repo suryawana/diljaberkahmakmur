@@ -15,7 +15,7 @@ const FeaturedProducts: React.FC<FeaturedProductsProps> = ({ products }) => {
     const featuredProducts = products.slice(0, 3);
 
     return (
-        <section id="featured-products" className="bg-white py-20">
+        <section id="featured-products" className="bg-white py-20 dark:bg-neutral-950">
             <div className="container mx-auto px-4">
                 <motion.div
                     initial={{ opacity: 0, y: 30 }}
@@ -24,10 +24,10 @@ const FeaturedProducts: React.FC<FeaturedProductsProps> = ({ products }) => {
                     viewport={{ once: true }}
                     className="mb-12 text-center"
                 >
-                    <h2 className="mb-4 text-4xl font-bold text-gray-900">
+                    <h2 className="mb-4 text-4xl font-bold text-gray-900 dark:text-neutral-100">
                         Produk Unggulan Kami
                     </h2>
-                    <p className="mx-auto max-w-2xl text-xl text-gray-600">
+                    <p className="mx-auto max-w-2xl text-xl text-gray-600 dark:text-neutral-400">
                         Temukan berbagai furnitur dan perlengkapan rumah sakit
                         berkualitas tinggi
                     </p>
@@ -47,9 +47,9 @@ const FeaturedProducts: React.FC<FeaturedProductsProps> = ({ products }) => {
                             viewport={{ once: true }}
                             whileHover={{ y: -5 }}
                         >
-                            <Card className="group relative cursor-pointer overflow-hidden border-0 bg-white shadow-md transition-all duration-500 hover:shadow-2xl">
+                            <Card className="group relative cursor-pointer overflow-hidden border-0 bg-white shadow-md transition-all duration-500 hover:shadow-2xl dark:bg-neutral-800 dark:shadow-neutral-900/50">
                                 {/* Image Container - Full tanpa space */}
-                                <div className="relative aspect-square overflow-hidden bg-gray-100">
+                                <div className="relative aspect-square overflow-hidden bg-gray-100 dark:bg-neutral-700">
                                     <motion.img
                                         src={
                                             product.main_image
@@ -64,6 +64,15 @@ const FeaturedProducts: React.FC<FeaturedProductsProps> = ({ products }) => {
                                     {/* Overlay dengan gradient */}
                                     <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
 
+                                    {/* Price Badge */}
+                                    {product.price && (
+                                        <div className="absolute bottom-3 left-3 z-10">
+                                            <span className="rounded-full bg-green-600 px-3 py-1 text-sm font-semibold text-white shadow-lg">
+                                                Rp {Number(product.price).toLocaleString('id-ID')}
+                                            </span>
+                                        </div>
+                                    )}
+
                                     {/* Hover Overlay Content */}
                                     <div className="absolute inset-0 flex items-center justify-center bg-blue-600/90 opacity-0 transition-all duration-500 group-hover:opacity-100">
                                         <div className="p-4 text-center text-white">
@@ -75,16 +84,12 @@ const FeaturedProducts: React.FC<FeaturedProductsProps> = ({ products }) => {
                                                 Klik untuk melihat spesifikasi
                                                 lengkap
                                             </p>
-                                            <Button
-                                                asChild
-                                                className="bg-white font-medium text-blue-600 hover:bg-blue-50"
+                                            <Link
+                                                href={`/products/${product.slug}`}
+                                                as={Button}
                                             >
-                                                <Link
-                                                    href={`/products/${product.slug}`}
-                                                >
-                                                    Detail Produk
-                                                </Link>
-                                            </Button>
+                                                Detail Produk
+                                            </Link>
                                         </div>
                                     </div>
                                 </div>

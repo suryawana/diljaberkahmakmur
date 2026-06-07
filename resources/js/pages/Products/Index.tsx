@@ -29,6 +29,7 @@ interface Product {
     name: string;
     slug: string;
     description: string;
+    price: number | null;
     main_image: string;
     brand: {
         id: number;
@@ -794,6 +795,11 @@ function ProductCard({ product, viewMode }: ProductCardProps) {
                                                 {product.brand.name}
                                             </Badge>
                                         )}
+                                        {product.price && (
+                                            <p className="text-lg font-bold text-blue-600">
+                                                Rp {Number(product.price).toLocaleString('id-ID')}
+                                            </p>
+                                        )}
                                     </div>
 
                                     <p className="mb-4 line-clamp-3 leading-relaxed text-gray-600">
@@ -893,6 +899,15 @@ function ProductCard({ product, viewMode }: ProductCardProps) {
                         </Badge>
                     </div>
 
+                    {/* Price */}
+                    {product.price && (
+                        <div className="absolute bottom-3 left-3">
+                            <Badge className="bg-green-600 text-white text-sm px-3 py-1">
+                                Rp {Number(product.price).toLocaleString('id-ID')}
+                            </Badge>
+                        </div>
+                    )}
+
                     {/* Hover Overlay Content */}
                     <motion.div
                         className="absolute inset-0 flex items-center justify-center bg-blue-600/90 opacity-0 transition-all duration-500 group-hover:opacity-100"
@@ -915,14 +930,12 @@ function ProductCard({ product, viewMode }: ProductCardProps) {
                                 <p className="mb-4 text-sm text-blue-100">
                                     Klik untuk melihat spesifikasi lengkap
                                 </p>
-                                <Button
-                                    asChild
-                                    className="bg-white font-medium text-blue-600 hover:bg-blue-50"
+                                <Link
+                                    href={`/products/${product.slug}`}
+                                    as={Button}
                                 >
-                                    <Link href={`/products/${product.slug}`}>
-                                        Detail Produk
-                                    </Link>
-                                </Button>
+                                    Detail Produk
+                                </Link>
                             </motion.div>
                         </div>
                     </motion.div>

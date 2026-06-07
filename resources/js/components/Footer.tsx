@@ -57,7 +57,7 @@ const Footer: React.FC = () => {
     ];
 
     return (
-        <footer className="bg-gray-900 text-white">
+        <footer className="bg-gray-900 text-white dark:bg-neutral-950">
             <div className="container mx-auto px-4 py-12">
                 <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-4">
                     {/* Company Info */}
@@ -77,7 +77,7 @@ const Footer: React.FC = () => {
                                 {company?.name}
                             </span>
                         </Link>
-                        <p className="mb-6 leading-relaxed text-gray-300">
+                        <p className="mb-6 leading-relaxed text-gray-300 dark:text-neutral-400">
                             {company?.description}
                         </p>
 
@@ -88,7 +88,7 @@ const Footer: React.FC = () => {
                                     href={socialMedia.facebook}
                                     target="_blank"
                                     rel="noopener noreferrer"
-                                    className="text-gray-400 transition-colors hover:text-white"
+                                    className="text-gray-400 transition-colors hover:text-white dark:text-neutral-500 dark:hover:text-neutral-200"
                                 >
                                     <Facebook className="h-5 w-5" />
                                 </a>
@@ -98,7 +98,7 @@ const Footer: React.FC = () => {
                                     href={socialMedia.instagram}
                                     target="_blank"
                                     rel="noopener noreferrer"
-                                    className="text-gray-400 transition-colors hover:text-white"
+                                    className="text-gray-400 transition-colors hover:text-white dark:text-neutral-500 dark:hover:text-neutral-200"
                                 >
                                     <Instagram className="h-5 w-5" />
                                 </a>
@@ -108,7 +108,7 @@ const Footer: React.FC = () => {
                                     href={socialMedia.twitter}
                                     target="_blank"
                                     rel="noopener noreferrer"
-                                    className="text-gray-400 transition-colors hover:text-white"
+                                    className="text-gray-400 transition-colors hover:text-white dark:text-neutral-500 dark:hover:text-neutral-200"
                                 >
                                     <Twitter className="h-5 w-5" />
                                 </a>
@@ -118,7 +118,7 @@ const Footer: React.FC = () => {
                                     href={socialMedia.linkedin}
                                     target="_blank"
                                     rel="noopener noreferrer"
-                                    className="text-gray-400 transition-colors hover:text-white"
+                                    className="text-gray-400 transition-colors hover:text-white dark:text-neutral-500 dark:hover:text-neutral-200"
                                 >
                                     <Linkedin className="h-5 w-5" />
                                 </a>
@@ -137,7 +137,7 @@ const Footer: React.FC = () => {
                                     <li key={link.name}>
                                         <Link
                                             href={link.href}
-                                            className="text-gray-300 transition-colors hover:text-white"
+                                            className="text-gray-300 transition-colors hover:text-white dark:text-neutral-400 dark:hover:text-neutral-200"
                                         >
                                             {link.name}
                                         </Link>
@@ -152,20 +152,20 @@ const Footer: React.FC = () => {
                         <h3 className="mb-4 text-lg font-semibold">Kontak</h3>
                         <div className="space-y-3">
                             <div className="flex items-start space-x-3">
-                                <MapPin className="mt-0.5 h-5 w-5 text-gray-400" />
-                                <span className="text-gray-300">
+                                <MapPin className="mt-0.5 h-5 w-5 text-gray-400 dark:text-neutral-500" />
+                                <span className="text-gray-300 dark:text-neutral-400">
                                     {company?.address}
                                 </span>
                             </div>
                             <div className="flex items-center space-x-3">
-                                <Phone className="h-5 w-5 text-gray-400" />
-                                <span className="text-gray-300">
+                                <Phone className="h-5 w-5 text-gray-400 dark:text-neutral-500" />
+                                <span className="text-gray-300 dark:text-neutral-400">
                                     {company?.phone}
                                 </span>
                             </div>
                             <div className="flex items-center space-x-3">
-                                <Mail className="h-5 w-5 text-gray-400" />
-                                <span className="text-gray-300">
+                                <Mail className="h-5 w-5 text-gray-400 dark:text-neutral-500" />
+                                <span className="text-gray-300 dark:text-neutral-400">
                                     {company?.email}
                                 </span>
                             </div>
@@ -174,7 +174,7 @@ const Footer: React.FC = () => {
                 </div>
 
                 {/* Bottom Bar */}
-                <div className="mt-8 border-t border-gray-800 pt-8 text-center text-gray-400">
+                <div className="mt-8 border-t border-gray-800 pt-8 text-center text-gray-400 dark:border-neutral-800 dark:text-neutral-500">
                     <p>
                         &copy; {new Date().getFullYear()} {company?.name}. All
                         rights reserved.

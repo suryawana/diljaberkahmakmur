@@ -26,7 +26,7 @@ const CategoriesSection: React.FC<CategoriesSectionProps> = ({
     };
 
     return (
-        <section className="bg-gray-50 py-20" id="category-section">
+        <section className="bg-gray-50 py-20 dark:bg-neutral-900" id="category-section">
             <div className="container mx-auto px-4">
                 <motion.div
                     initial={{ opacity: 0, y: 30 }}
@@ -35,10 +35,10 @@ const CategoriesSection: React.FC<CategoriesSectionProps> = ({
                     viewport={{ once: true }}
                     className="mb-12 text-center"
                 >
-                    <h2 className="mb-4 text-4xl font-bold text-gray-900">
+                    <h2 className="mb-4 text-4xl font-bold text-gray-900 dark:text-neutral-100">
                         Kategori Produk
                     </h2>
-                    <p className="mx-auto max-w-2xl text-xl text-gray-600">
+                    <p className="mx-auto max-w-2xl text-xl text-gray-600 dark:text-neutral-400">
                         Temukan berbagai kategori furnitur dan perlengkapan
                         rumah sakit berkualitas
                     </p>
@@ -49,7 +49,7 @@ const CategoriesSection: React.FC<CategoriesSectionProps> = ({
                     <Button
                         variant="outline"
                         size="icon"
-                        className="absolute top-1/2 left-0 z-10 -translate-x-4 -translate-y-1/2 transform bg-white shadow-lg"
+                        className="absolute top-1/2 left-0 z-10 -translate-x-4 -translate-y-1/2 transform bg-white shadow-lg dark:bg-neutral-800 dark:shadow-neutral-900/50"
                         onClick={() => scroll('left')}
                     >
                         <ChevronLeft className="h-5 w-5" />
@@ -58,7 +58,7 @@ const CategoriesSection: React.FC<CategoriesSectionProps> = ({
                     <Button
                         variant="outline"
                         size="icon"
-                        className="absolute top-1/2 right-0 z-10 translate-x-4 -translate-y-1/2 transform bg-white shadow-lg"
+                        className="absolute top-1/2 right-0 z-10 translate-x-4 -translate-y-1/2 transform bg-white shadow-lg dark:bg-neutral-800 dark:shadow-neutral-900/50"
                         onClick={() => scroll('right')}
                     >
                         <ChevronRight className="h-5 w-5" />
@@ -88,10 +88,10 @@ const CategoriesSection: React.FC<CategoriesSectionProps> = ({
                             >
                                 <Link
                                     href={`/categories/${category.slug}`}
-                                    className="group block h-full w-full overflow-hidden rounded-xl border border-gray-200 bg-white shadow-lg transition-all duration-300 hover:shadow-xl"
+                                    className="group block h-full w-full overflow-hidden rounded-xl border border-gray-200 bg-white shadow-lg transition-all duration-300 hover:shadow-xl dark:border-neutral-700 dark:bg-neutral-800 dark:shadow-neutral-900/50"
                                 >
                                     {/* Container dengan fixed size */}
-                                    <div className="relative h-full w-full overflow-hidden bg-gray-100">
+                                    <div className="relative h-full w-full overflow-hidden bg-gray-100 dark:bg-neutral-700">
                                         {category.image ? (
                                             <img
                                                 src={`/storage/${category.image}`}

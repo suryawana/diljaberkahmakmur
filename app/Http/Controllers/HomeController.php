@@ -31,6 +31,7 @@ class HomeController extends Controller
                     'name' => $product->name,
                     'slug' => $product->slug,
                     'description' => $product->description,
+                    'price' => $product->price,
                     'main_image' => $product->main_image,
                     'brand' => $product->brand?->name,
                     'categories' => $product->categories->pluck('name'),

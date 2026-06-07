@@ -19,7 +19,7 @@ const Header: React.FC = () => {
     ];
 
     return (
-        <header className="sticky top-0 z-40 bg-white shadow-sm">
+        <header className="sticky top-0 z-40 bg-white shadow-sm dark:bg-neutral-950 dark:shadow-neutral-900/50">
             {/* Top Bar */}
             <div className="bg-blue-600 py-2 text-white">
                 <div className="container mx-auto px-4">
@@ -50,7 +50,7 @@ const Header: React.FC = () => {
             </div>
 
             {/* Main Navigation */}
-            <nav className="bg-white">
+            <nav className="bg-white dark:bg-neutral-950">
                 <div className="container mx-auto px-4">
                     <div className="flex items-center justify-between py-4">
                         {/* Logo */}
@@ -68,7 +68,7 @@ const Header: React.FC = () => {
                                 />
                             )}
 
-                            <span className="text-2xl font-bold text-gray-900">
+                            <span className="text-2xl font-bold text-gray-900 dark:text-neutral-100">
                                 {company?.name}
                             </span>
                         </Link>
@@ -79,7 +79,7 @@ const Header: React.FC = () => {
                                 <Link
                                     key={item.name}
                                     href={item.href}
-                                    className="font-medium text-gray-700 transition-colors duration-200 hover:text-blue-600"
+                                    className="font-medium text-gray-700 transition-colors duration-200 hover:text-blue-600 dark:text-neutral-300 dark:hover:text-blue-400"
                                 >
                                     {item.name}
                                 </Link>
@@ -111,12 +111,12 @@ const Header: React.FC = () => {
                         }
                         className="overflow-hidden md:hidden"
                     >
-                        <div className="space-y-4 border-t py-4">
+                        <div className="space-y-4 border-t border-gray-200 py-4 dark:border-neutral-800">
                             {navigation.map((item) => (
                                 <Link
                                     key={item.name}
                                     href={item.href}
-                                    className="block py-2 font-medium text-gray-700 hover:text-blue-600"
+                                    className="block py-2 font-medium text-gray-700 hover:text-blue-600 dark:text-neutral-300 dark:hover:text-blue-400"
                                     onClick={() => setIsMenuOpen(false)}
                                 >
                                     {item.name}

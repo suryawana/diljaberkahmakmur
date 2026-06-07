@@ -8,7 +8,7 @@ interface PartnersSectionProps {
 
 const PartnersSection: React.FC<PartnersSectionProps> = ({ partners }) => {
     return (
-        <section className="bg-gray-50 py-20">
+        <section className="bg-gray-50 py-20 dark:bg-neutral-900">
             <div className="container mx-auto px-4">
                 <motion.div
                     initial={{ opacity: 0, y: 30 }}
@@ -17,10 +17,10 @@ const PartnersSection: React.FC<PartnersSectionProps> = ({ partners }) => {
                     viewport={{ once: true }}
                     className="mb-12 text-center"
                 >
-                    <h2 className="mb-4 text-4xl font-bold text-gray-900">
+                    <h2 className="mb-4 text-4xl font-bold text-gray-900 dark:text-neutral-100">
                         Mitra Kerja Sama Kami
                     </h2>
-                    <p className="mx-auto max-w-2xl text-xl text-gray-600">
+                    <p className="mx-auto max-w-2xl text-xl text-gray-600 dark:text-neutral-400">
                         Berkolaborasi dengan institusi kesehatan terpercaya
                     </p>
                 </motion.div>
@@ -34,7 +34,7 @@ const PartnersSection: React.FC<PartnersSectionProps> = ({ partners }) => {
                             transition={{ duration: 0.5, delay: index * 0.1 }}
                             viewport={{ once: true }}
                             whileHover={{ scale: 1.05 }}
-                            className="flex items-center justify-center rounded-xl border border-gray-100 bg-white p-6 shadow-lg transition-all duration-300 hover:shadow-xl"
+                            className="flex items-center justify-center rounded-xl border border-gray-100 bg-white p-6 shadow-lg transition-all duration-300 hover:shadow-xl dark:border-neutral-700 dark:bg-neutral-800 dark:shadow-neutral-900/50"
                         >
                             <a
                                 href={partner.website}
@@ -49,7 +49,7 @@ const PartnersSection: React.FC<PartnersSectionProps> = ({ partners }) => {
                                         className="h-16 w-auto object-contain transition-all duration-300"
                                     />
                                 )}
-                                <span className="text-center text-sm font-medium text-gray-900">
+                                <span className="text-center text-sm font-medium text-gray-900 dark:text-neutral-100">
                                     {partner.name}
                                 </span>
                             </a>

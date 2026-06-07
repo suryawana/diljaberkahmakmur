@@ -93,9 +93,11 @@ class ChatbotController extends Controller
             $prodLines = $products->map(function ($p) {
                 $brand = $p->brand?->name ?? '-';
                 $cats = $p->categories->pluck('name')->join(', ');
+                $price = $p->price;
                 $desc = \Illuminate\Support\Str::limit(strip_tags($p->description), 80);
+                $slug = $p->slug;
 
-                return "- {$p->name} | Brand: {$brand} | Kategori: {$cats} | {$desc}";
+                return "-Slug: {$p->slug} , Name : {$p->name} | Brand: {$brand} | Kategori: {$cats} | {$desc} | Harga: Rp.{$price}";
             })->join("\n");
             $parts[] = "## Daftar Produk\n{$prodLines}";
         }
@@ -115,19 +117,20 @@ class ChatbotController extends Controller
      */
     private function buildSystemPrompt(string $context): string
     {
+        $baseUrl = url('');
+
         return <<<PROMPT
 Kamu adalah asisten customer service virtual yang ramah dan profesional dari perusahaan furnitur rumah sakit.
 
 ATURAN PENTING:
 1. Jawab dalam Bahasa Indonesia yang natural dan ramah, seperti customer service manusia.
 2. Gunakan data di bawah ini untuk menjawab pertanyaan tentang produk, kategori, brand, dan info perusahaan.
-3. Jika ditanya harga, arahkan ke WhatsApp karena harga bersifat negosiasi.
-4. Jawab SINGKAT dan PADAT (maksimal 2-3 kalimat) kecuali perlu detail.
-5. Jika tidak tahu jawabannya, jujur katakan dan arahkan ke WhatsApp/kontak perusahaan.
-6. Gunakan emoji secukupnya untuk kesan ramah (1-2 per pesan).
-7. JANGAN mengarang data yang tidak ada di konteks.
-8. Jika customer bertanya soal hal di luar bisnis (misal cuaca, politik), arahkan kembali ke topik produk secara sopan.
-
+3. Jawab SINGKAT dan PADAT (maksimal 2-3 kalimat) kecuali perlu detail.
+4. Jika tidak tahu jawabannya, jujur katakan dan arahkan ke WhatsApp/kontak perusahaan.
+5. Gunakan emoji secukupnya untuk kesan ramah (1-2 per pesan).
+6. JANGAN mengarang data yang tidak ada di konteks.
+7. Jika customer bertanya soal hal di luar bisnis (misal cuaca, politik), arahkan kembali ke topik produk secara sopan.
+8. Jika user menanyakan produk sertakan link mengarah ke $baseUrl/products/{slug} untuk melihat lebih detail
 DATA PERUSAHAAN:
 {$context}
 PROMPT;

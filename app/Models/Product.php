@@ -21,12 +21,14 @@ class Product extends Model
         'product_brand_id',
         'is_active',
         'whatsapp_message',
+        'price',
         'is_available_online',
         'official_url',
         'availability_summary',
     ];
 
     protected $casts = [
+        'price' => 'decimal:2',
         'is_active' => 'boolean',
         'is_available_online' => 'boolean',
         'specifications' => 'array',

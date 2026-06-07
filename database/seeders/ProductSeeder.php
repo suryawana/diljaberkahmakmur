@@ -33,6 +33,7 @@ class ProductSeeder extends Seeder
                 'main_image' => 'products/baju-dokter-1.jpg',
                 'product_brand_id' => 1,
                 'is_active' => true,
+                'price' => 150000,
                 'whatsapp_message' => 'Halo, saya tertarik dengan Baju Dokter White Coat',
                 'categories' => [5], // Baju Rumah Sakit
             ],
@@ -55,6 +56,7 @@ class ProductSeeder extends Seeder
                 'main_image' => 'products/seragam-perawat-1.jpg',
                 'product_brand_id' => 1,
                 'is_active' => true,
+                'price' => 125000,
                 'whatsapp_message' => 'Halo, saya tertarik dengan Seragam Perawat Modern',
                 'categories' => [5], // Baju Rumah Sakit
             ],
@@ -77,6 +79,7 @@ class ProductSeeder extends Seeder
                 'main_image' => 'products/seprei-waterproof-1.jpg',
                 'product_brand_id' => 4,
                 'is_active' => true,
+                'price' => 200000,
                 'whatsapp_message' => 'Halo, saya tertarik dengan Seprei Waterproof Rumah Sakit',
                 'categories' => [6], // Seprei Rumah Sakit
             ],
@@ -99,6 +102,7 @@ class ProductSeeder extends Seeder
                 'main_image' => 'products/gorden-operasi-1.jpg',
                 'product_brand_id' => 4,
                 'is_active' => true,
+                'price' => 350000,
                 'whatsapp_message' => 'Halo, saya tertarik dengan Gorden Ruang Operasi',
                 'categories' => [7], // Gorden Rumah Sakit
             ],
@@ -123,6 +127,7 @@ class ProductSeeder extends Seeder
                 'main_image' => 'products/tempat-tidur-elektrik-1.jpg',
                 'product_brand_id' => 2,
                 'is_active' => true,
+                'price' => 15000000,
                 'whatsapp_message' => 'Halo, saya tertarik dengan Tempat Tidur Pasien Elektrik',
                 'categories' => [9], // Tempat Tidur Pasien
             ],
@@ -144,6 +149,7 @@ class ProductSeeder extends Seeder
                 'main_image' => 'products/kursi-pasien-roda-1.jpg',
                 'product_brand_id' => 3,
                 'is_active' => true,
+                'price' => 2500000,
                 'whatsapp_message' => 'Halo, saya tertarik dengan Kursi Pasien dengan Roda',
                 'categories' => [10], // Kursi Pasien
             ],
@@ -166,6 +172,7 @@ class ProductSeeder extends Seeder
                 'main_image' => 'products/meja-makan-pasien-1.jpg',
                 'product_brand_id' => 3,
                 'is_active' => true,
+                'price' => 1800000,
                 'whatsapp_message' => 'Halo, saya tertarik dengan Meja Makan Pasien',
                 'categories' => [11], // Meja Pasien
             ],
@@ -189,6 +196,7 @@ class ProductSeeder extends Seeder
                 'main_image' => 'products/kursi-dokter-1.jpg',
                 'product_brand_id' => 2,
                 'is_active' => true,
+                'price' => 3500000,
                 'whatsapp_message' => 'Halo, saya tertarik dengan Kursi Dokter Konsultasi',
                 'categories' => [12], // Kursi Dokter
             ],
@@ -211,6 +219,7 @@ class ProductSeeder extends Seeder
                 'main_image' => 'products/lemari-obat-1.jpg',
                 'product_brand_id' => 2,
                 'is_active' => true,
+                'price' => 5000000,
                 'whatsapp_message' => 'Halo, saya tertarik dengan Lemari Obat Stainless Steel',
                 'categories' => [14], // Lemari Obat
             ],

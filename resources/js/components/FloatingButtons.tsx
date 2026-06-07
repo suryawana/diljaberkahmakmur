@@ -80,6 +80,12 @@ const formatMessage = (text: string) => {
     // Strikethrough: ~~strike~~ -> <del>strike</del>
     out = out.replace(/~~(.+?)~~/g, '<del>$1</del>');
 
+    // Convert URLs to clickable links
+    out = out.replace(
+        /https?:\/\/[^\s<]+/g,
+        '<a href="$&" target="_blank" rel="noopener noreferrer" class="underline hover:opacity-80">$&</a>',
+    );
+
     // Convert newlines to <br>
     out = out.replace(/\r\n|\r|\n/g, '<br/>');
 
@@ -221,7 +227,7 @@ const FloatingButtons: React.FC<FloatingButtonsProps> = ({
                             stiffness: 300,
                             damping: 25,
                         }}
-                        className="fixed right-6 bottom-36 z-50 flex h-[480px] w-[360px] flex-col overflow-hidden rounded-2xl bg-white shadow-2xl ring-1 ring-black/5 max-sm:right-3 max-sm:bottom-32 max-sm:h-[420px] max-sm:w-[calc(100vw-24px)]"
+                        className="fixed right-6 bottom-36 z-50 flex h-[480px] w-[360px] flex-col overflow-hidden rounded-2xl bg-white shadow-2xl ring-1 ring-black/5 dark:bg-neutral-800 dark:ring-neutral-700 max-sm:right-3 max-sm:bottom-32 max-sm:h-[420px] max-sm:w-[calc(100vw-24px)]"
                     >
                         {/* Header */}
                         <div className="flex items-center gap-3 bg-gradient-to-r from-blue-600 to-blue-700 px-4 py-3">
@@ -254,7 +260,7 @@ const FloatingButtons: React.FC<FloatingButtonsProps> = ({
                         </div>
 
                         {/* Messages */}
-                        <div className="flex-1 space-y-3 overflow-y-auto bg-gray-50 px-4 py-4">
+                        <div className="flex-1 space-y-3 overflow-y-auto bg-gray-50 px-4 py-4 dark:bg-neutral-900">
                             {messages.map((msg) => (
                                 <motion.div
                                     key={msg.id}
@@ -263,10 +269,10 @@ const FloatingButtons: React.FC<FloatingButtonsProps> = ({
                                     className={`flex ${msg.sender === 'user' ? 'justify-end' : 'justify-start'}`}
                                 >
                                     <div
-                                        className={`max-w-[80%] rounded-2xl px-4 py-2.5 text-sm leading-relaxed ${
+                                        className={`max-w-[80%] break-words rounded-2xl px-4 py-2.5 text-sm leading-relaxed ${
                                             msg.sender === 'user'
-                                                ? 'rounded-br-md bg-blue-600 text-white'
-                                                : 'rounded-bl-md bg-white text-gray-700 shadow-sm ring-1 ring-gray-100'
+                                                ? 'rounded-br-md bg-blue-600 text-white [&_a]:text-blue-200 [&_a]:hover:text-white'
+                                                : 'rounded-bl-md bg-white text-gray-700 shadow-sm ring-1 ring-gray-100 dark:bg-neutral-700 dark:text-neutral-200 dark:ring-neutral-600 [&_a]:text-blue-600 [&_a]:hover:text-blue-800 dark:[&_a]:text-blue-300 dark:[&_a]:hover:text-blue-100'
                                         }`}
                                         dangerouslySetInnerHTML={{
                                             __html: formatMessage(msg.text),
@@ -282,7 +288,7 @@ const FloatingButtons: React.FC<FloatingButtonsProps> = ({
                                     animate={{ opacity: 1 }}
                                     className="flex justify-start"
                                 >
-                                    <div className="flex items-center gap-1.5 rounded-2xl rounded-bl-md bg-white px-4 py-3 shadow-sm ring-1 ring-gray-100">
+                                    <div className="flex items-center gap-1.5 rounded-2xl rounded-bl-md bg-white px-4 py-3 shadow-sm ring-1 ring-gray-100 dark:bg-neutral-700 dark:ring-neutral-600">
                                         <span className="inline-block h-2 w-2 animate-bounce rounded-full bg-gray-400 [animation-delay:0ms]" />
                                         <span className="inline-block h-2 w-2 animate-bounce rounded-full bg-gray-400 [animation-delay:150ms]" />
                                         <span className="inline-block h-2 w-2 animate-bounce rounded-full bg-gray-400 [animation-delay:300ms]" />
@@ -295,12 +301,12 @@ const FloatingButtons: React.FC<FloatingButtonsProps> = ({
 
                         {/* Quick Replies (shown only at start) */}
                         {messages.length <= 1 && (
-                            <div className="flex flex-wrap gap-1.5 border-t border-gray-100 bg-white px-4 py-2.5">
+                            <div className="flex flex-wrap gap-1.5 border-t border-gray-100 bg-white px-4 py-2.5 dark:border-neutral-700 dark:bg-neutral-800">
                                 {QUICK_REPLIES.map((q, i) => (
                                     <button
                                         key={i}
                                         onClick={() => sendMessage(q)}
-                                        className="rounded-full bg-blue-50 px-3 py-1.5 text-xs font-medium text-blue-700 transition-colors hover:bg-blue-100"
+                                        className="rounded-full bg-blue-50 px-3 py-1.5 text-xs font-medium text-blue-700 transition-colors hover:bg-blue-100 dark:bg-blue-950 dark:text-blue-200 dark:hover:bg-blue-900"
                                     >
                                         {q}
                                     </button>
@@ -311,7 +317,7 @@ const FloatingButtons: React.FC<FloatingButtonsProps> = ({
                         {/* Input */}
                         <form
                             onSubmit={handleSubmit}
-                            className="flex items-center gap-2 border-t border-gray-100 bg-white px-4 py-3"
+                            className="flex items-center gap-2 border-t border-gray-100 bg-white px-4 py-3 dark:border-neutral-700 dark:bg-neutral-800"
                         >
                             <input
                                 ref={inputRef}
@@ -320,7 +326,7 @@ const FloatingButtons: React.FC<FloatingButtonsProps> = ({
                                 onChange={(e) => setInputValue(e.target.value)}
                                 placeholder="Ketik pesan..."
                                 disabled={isTyping}
-                                className="flex-1 rounded-full border border-gray-200 bg-gray-50 px-4 py-2 text-sm text-gray-800 transition-colors outline-none placeholder:text-gray-400 focus:border-blue-400 focus:bg-white focus:ring-2 focus:ring-blue-100 disabled:opacity-60"
+                                className="flex-1 rounded-full border border-gray-200 bg-gray-50 px-4 py-2 text-sm text-gray-800 transition-colors outline-none placeholder:text-gray-400 focus:border-blue-400 focus:bg-white focus:ring-2 focus:ring-blue-100 disabled:opacity-60 dark:border-neutral-600 dark:bg-neutral-700 dark:text-neutral-100 dark:placeholder:text-neutral-400 dark:focus:border-blue-500 dark:focus:bg-neutral-700 dark:focus:ring-blue-900"
                             />
                             <button
                                 type="submit"

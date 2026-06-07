@@ -21,6 +21,7 @@ interface Product {
     name: string;
     slug: string;
     description: string;
+    price: number | null;
     specifications: any;
     features: any;
     main_image: string;
@@ -327,6 +328,16 @@ export default function ProductShow({
                                     </Badge>
                                 ))}
                             </div>
+
+                            {/* Price */}
+                            {product.price && (
+                                <div className="rounded-lg bg-blue-50 p-4">
+                                    <p className="text-sm text-blue-600">Harga</p>
+                                    <p className="text-3xl font-bold text-blue-700">
+                                        Rp {Number(product.price).toLocaleString('id-ID')}
+                                    </p>
+                                </div>
+                            )}
 
                             {/* Description */}
                             <div className="prose max-w-none">

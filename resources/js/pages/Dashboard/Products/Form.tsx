@@ -38,6 +38,7 @@ interface Product {
     name: string;
     slug: string;
     description: string;
+    price: number | null;
     specifications: Array<{ key: string; value: string }> | null;
     features: string[] | null;
     main_image: string;
@@ -105,6 +106,7 @@ export default function ProductForm({
     } = useForm({
         name: product?.name || '',
         description: product?.description || '',
+        price: product?.price || '',
         specifications: product?.specifications || [{ key: '', value: '' }],
         features: product?.features || [''],
         main_image: null as File | null,
@@ -371,6 +373,30 @@ export default function ProductForm({
                                         </p>
                                     )}
                                 </div>
+                            </div>
+
+                            <div className="space-y-2">
+                                <Label htmlFor="price">Harga</Label>
+                                <div className="relative">
+                                    <span className="absolute top-1/2 left-3 -translate-y-1/2 text-gray-500">Rp</span>
+                                    <Input
+                                        id="price"
+                                        type="number"
+                                        step="0.01"
+                                        min="0"
+                                        value={data.price}
+                                        onChange={(e) =>
+                                            setData('price', e.target.value)
+                                        }
+                                        placeholder="0"
+                                        className="pl-10"
+                                    />
+                                </div>
+                                {errors.price && (
+                                    <p className="text-sm text-red-600">
+                                        {errors.price}
+                                    </p>
+                                )}
                             </div>
 
                             <div className="space-y-2">
