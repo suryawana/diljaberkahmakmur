@@ -334,7 +334,7 @@ export default function ProductShow({
                                 <div className="rounded-lg bg-blue-50 p-4">
                                     <p className="text-sm text-blue-600">Harga</p>
                                     <p className="text-3xl font-bold text-blue-700">
-                                        Rp {Number(product.price).toLocaleString('id-ID')}
+                                        Rp {Number(product.price).toLocaleString('id-ID', { minimumFractionDigits: 0, maximumFractionDigits: 0 })}
                                     </p>
                                 </div>
                             )}

@@ -797,7 +797,7 @@ function ProductCard({ product, viewMode }: ProductCardProps) {
                                         )}
                                         {product.price && (
                                             <p className="text-lg font-bold text-blue-600">
-                                                Rp {Number(product.price).toLocaleString('id-ID')}
+                                                Rp {Number(product.price).toLocaleString('id-ID', { minimumFractionDigits: 0, maximumFractionDigits: 0 })}
                                             </p>
                                         )}
                                     </div>
@@ -903,7 +903,7 @@ function ProductCard({ product, viewMode }: ProductCardProps) {
                     {product.price && (
                         <div className="absolute bottom-3 left-3">
                             <Badge className="bg-green-600 text-white text-sm px-3 py-1">
-                                Rp {Number(product.price).toLocaleString('id-ID')}
+                                Rp {Number(product.price).toLocaleString('id-ID', { minimumFractionDigits: 0, maximumFractionDigits: 0 })}
                             </Badge>
                         </div>
                     )}

@@ -106,7 +106,7 @@ export default function ProductForm({
     } = useForm({
         name: product?.name || '',
         description: product?.description || '',
-        price: product?.price || '',
+        price: product?.price ? Math.round(Number(product.price)) : '',
         specifications: product?.specifications || [{ key: '', value: '' }],
         features: product?.features || [''],
         main_image: null as File | null,
@@ -382,7 +382,7 @@ export default function ProductForm({
                                     <Input
                                         id="price"
                                         type="number"
-                                        step="0.01"
+                                        step="1"
                                         min="0"
                                         value={data.price}
                                         onChange={(e) =>

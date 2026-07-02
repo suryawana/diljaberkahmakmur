@@ -97,7 +97,7 @@ class ChatbotController extends Controller
                 $desc = \Illuminate\Support\Str::limit(strip_tags($p->description), 80);
                 $slug = $p->slug;
 
-                return "-Slug: {$p->slug} , Name : {$p->name} | Brand: {$brand} | Kategori: {$cats} | {$desc} | Harga: Rp.{$price}";
+                return "-Slug: {$p->slug} , Name : {$p->name} | Brand: {$brand} | Kategori: {$cats} | {$desc} | Harga: Rp." . number_format($price, 0, ',', '.');
             })->join("\n");
             $parts[] = "## Daftar Produk\n{$prodLines}";
         }

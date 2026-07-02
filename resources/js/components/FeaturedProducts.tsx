@@ -68,7 +68,7 @@ const FeaturedProducts: React.FC<FeaturedProductsProps> = ({ products }) => {
                                     {product.price && (
                                         <div className="absolute bottom-3 left-3 z-10">
                                             <span className="rounded-full bg-green-600 px-3 py-1 text-sm font-semibold text-white shadow-lg">
-                                                Rp {Number(product.price).toLocaleString('id-ID')}
+                                                Rp {Number(product.price).toLocaleString('id-ID', { minimumFractionDigits: 0, maximumFractionDigits: 0 })}
                                             </span>
                                         </div>
                                     )}

@@ -215,7 +215,7 @@ export default function ProductsIndex({ products }: ProductsIndexProps) {
                                         <TableCell>
                                             {product.price ? (
                                                 <span className="font-medium">
-                                                    Rp {Number(product.price).toLocaleString('id-ID')}
+                                                    Rp {Number(product.price).toLocaleString('id-ID', { minimumFractionDigits: 0, maximumFractionDigits: 0 })}
                                                 </span>
                                             ) : (
                                                 <span className="text-muted-foreground">—</span>
