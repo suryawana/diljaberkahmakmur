@@ -97,7 +97,7 @@ class ChatbotController extends Controller
                 $desc = \Illuminate\Support\Str::limit(strip_tags($p->description), 80);
                 $slug = $p->slug;
 
-                return "-Slug: {$p->slug} , Name : {$p->name} | Brand: {$brand} | Kategori: {$cats} | {$desc} | Harga: Rp." . number_format($price, 0, ',', '.');
+                return "-Slug: {$p->slug} , Name : {$p->name} | Brand: {$brand} | Kategori: {$cats} | {$desc} | Harga: Rp.".number_format($price, 0, ',', '.');
             })->join("\n");
             $parts[] = "## Daftar Produk\n{$prodLines}";
         }
@@ -195,7 +195,7 @@ PROMPT;
             'Authorization' => 'Bearer '.$apiKey,
             'Content-Type' => 'application/json',
         ])->post('https://api.groq.com/openai/v1/chat/completions', [
-            'model' => 'llama-3.3-70b-versatile',
+            'model' => 'openai/gpt-oss-120b',
             'messages' => $messages,
             'temperature' => 0.7,
             'max_tokens' => 800,
