@@ -82,22 +82,20 @@ class ChatbotController extends Controller
             $parts[] = "## Kategori Produk\n{$catLines}";
         }
 
-        // Products (top 30, compact)
+        // All products (compact list)
         $products = Product::active()
             ->with(['brand', 'categories'])
             ->latest()
-            ->take(30)
             ->get();
 
         if ($products->isNotEmpty()) {
             $prodLines = $products->map(function ($p) {
                 $brand = $p->brand?->name ?? '-';
                 $cats = $p->categories->pluck('name')->join(', ');
-                $price = $p->price;
+                $price = 'Rp.'.number_format($p->price, 0, ',', '.');
                 $desc = \Illuminate\Support\Str::limit(strip_tags($p->description), 80);
-                $slug = $p->slug;
 
-                return "-Slug: {$p->slug} , Name : {$p->name} | Brand: {$brand} | Kategori: {$cats} | {$desc} | Harga: Rp.".number_format($price, 0, ',', '.');
+                return "- {$p->name}\n  Brand: {$brand}\n  Kategori: {$cats}\n  Harga: {$price}\n  Deskripsi: {$desc}\n  Link: ".url('/products/'.$p->slug);
             })->join("\n");
             $parts[] = "## Daftar Produk\n{$prodLines}";
         }
@@ -131,6 +129,7 @@ ATURAN PENTING:
 6. JANGAN mengarang data yang tidak ada di konteks.
 7. Jika customer bertanya soal hal di luar bisnis (misal cuaca, politik), arahkan kembali ke topik produk secara sopan.
 8. Jika user menanyakan produk sertakan link mengarah ke $baseUrl/products/{slug} untuk melihat lebih detail
+9. SAAT MENAMPILKAN LINK: tulis URL langsung apa adanya, JANGAN bungkus dengan tanda kurung siku < > atau karakter lainnya. Contoh benar: https://diljaberkahmakmur.test/products/gorden-anti-bakteri-pvc. Contoh salah: <https://diljaberkahmakmur.test/products/gorden-anti-bakteri-pvc>
 DATA PERUSAHAAN:
 {$context}
 PROMPT;
@@ -198,7 +197,6 @@ PROMPT;
             'model' => 'openai/gpt-oss-120b',
             'messages' => $messages,
             'temperature' => 0.7,
-            'max_tokens' => 800,
             'top_p' => 0.9,
         ]);
     }
