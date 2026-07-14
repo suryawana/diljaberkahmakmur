@@ -89,13 +89,13 @@ class ChatbotController extends Controller
             ->get();
 
         if ($products->isNotEmpty()) {
-            $prodLines = $products->map(function ($p) {
+            $prodLines = $products->map(function ($p, $i) {
                 $brand = $p->brand?->name ?? '-';
                 $cats = $p->categories->pluck('name')->join(', ');
                 $price = 'Rp.'.number_format($p->price, 0, ',', '.');
                 $desc = \Illuminate\Support\Str::limit(strip_tags($p->description), 80);
 
-                return "{$p->name}\n  Brand: {$brand}\n  Harga: {$price}\n  Deskripsi: {$desc}\n  Link: ".url('/products/'.$p->slug);
+                return ($i + 1).". {$p->name}\n   Brand: {$brand}\n   Kategori: {$cats}\n   Harga: {$price}\n   Deskripsi: {$desc}\n   Link: ".url('/products/'.$p->slug);
             })->join("\n");
             $parts[] = "## Daftar Produk\n{$prodLines}";
         }
@@ -130,6 +130,7 @@ ATURAN PENTING:
 7. Jika customer bertanya soal hal di luar bisnis (misal cuaca, politik), arahkan kembali ke topik produk secara sopan.
 8. Jika user menanyakan produk sertakan link mengarah ke $baseUrl/products/{slug} untuk melihat lebih detail
 9. SAAT MENAMPILKAN LINK: tulis URL langsung apa adanya, JANGAN bungkus dengan tanda kurung siku < > atau karakter lainnya. Contoh benar: https://diljaberkahmakmur.test/products/gorden-anti-bakteri-pvc. Contoh salah: <https://diljaberkahmakmur.test/products/gorden-anti-bakteri-pvc>
+10. Jika menampilkan daftar produk, gunakan format nomor (1. 2. 3. ...) bukan bullet point (-).
 DATA PERUSAHAAN:
 {$context}
 PROMPT;
