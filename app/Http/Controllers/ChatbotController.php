@@ -95,7 +95,7 @@ class ChatbotController extends Controller
                 $price = 'Rp.'.number_format($p->price, 0, ',', '.');
                 $desc = \Illuminate\Support\Str::limit(strip_tags($p->description), 80);
 
-                return "- {$p->name}\n  Brand: {$brand}\n  Kategori: {$cats}\n  Harga: {$price}\n  Deskripsi: {$desc}\n  Link: ".url('/products/'.$p->slug);
+                return "- {$p->name}\n  Brand: {$brand}\n  Harga: {$price}\n  Deskripsi: {$desc}\n  Link: ".url('/products/'.$p->slug);
             })->join("\n");
             $parts[] = "## Daftar Produk\n{$prodLines}";
         }
