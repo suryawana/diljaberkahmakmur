@@ -1,4 +1,6 @@
 // resources/js/Pages/Dashboard/Products/Index.tsx
+import AlertError from '@/components/alert-error';
+import AlertSuccess from '@/components/alert-success';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import {
@@ -28,7 +30,7 @@ import {
     Plus,
     Trash2,
 } from 'lucide-react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 interface Product {
     id: number;
@@ -66,6 +68,18 @@ export default function ProductsIndex({ products }: ProductsIndexProps) {
     const { props } = usePage();
     const [sortField, setSortField] = useState<string>('created_at');
     const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('desc');
+    const flash = (props as any).flash as
+        | { success?: string; error?: string }
+        | undefined;
+    const [showAlert, setShowAlert] = useState(!!flash?.success || !!flash?.error);
+
+    useEffect(() => {
+        if (flash?.success || flash?.error) {
+            setShowAlert(true);
+            const timer = setTimeout(() => setShowAlert(false), 5000);
+            return () => clearTimeout(timer);
+        }
+    }, [flash?.success, flash?.error]);
 
     const handleDelete = (id: number, name: string) => {
         if (confirm(`Apakah Anda yakin ingin menghapus produk "${name}"?`)) {
@@ -113,6 +127,13 @@ export default function ProductsIndex({ products }: ProductsIndexProps) {
             <Head title="Produk" />
 
             <div className="flex-1 space-y-4 p-8 pt-6">
+                {showAlert && flash?.success && (
+                    <AlertSuccess message={flash.success} />
+                )}
+                {showAlert && flash?.error && (
+                    <AlertError errors={[flash.error]} />
+                )}
+
                 <div className="flex items-center justify-between space-y-2">
                     <div className="flex items-center space-x-3">
                         <div className="rounded-lg bg-green-100 p-2">

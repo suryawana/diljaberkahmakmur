@@ -1,4 +1,6 @@
 // resources/js/Pages/Dashboard/Products/Form.tsx
+import AlertError from '@/components/alert-error';
+import AlertSuccess from '@/components/alert-success';
 import { Button } from '@/components/ui/button';
 import {
     Card,
@@ -31,7 +33,7 @@ import {
     Upload,
     X,
 } from 'lucide-react';
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 interface Product {
     id?: number;
@@ -85,6 +87,18 @@ export default function ProductForm({
 }: ProductFormProps) {
     const { props } = usePage();
     const isEdit = !!product?.id;
+    const flash = (props as any).flash as
+        | { success?: string; error?: string }
+        | undefined;
+    const [showAlert, setShowAlert] = useState(!!flash?.success || !!flash?.error);
+
+    useEffect(() => {
+        if (flash?.success || flash?.error) {
+            setShowAlert(true);
+            const timer = setTimeout(() => setShowAlert(false), 5000);
+            return () => clearTimeout(timer);
+        }
+    }, [flash?.success, flash?.error]);
 
     const mainImageInputRef = useRef<HTMLInputElement>(null);
     const additionalImagesInputRef = useRef<HTMLInputElement>(null);
@@ -286,6 +300,13 @@ export default function ProductForm({
             <Head title={isEdit ? 'Edit Produk' : 'Buat Produk'} />
 
             <div className="flex-1 space-y-6 p-8 pt-6">
+                {showAlert && flash?.success && (
+                    <AlertSuccess message={flash.success} />
+                )}
+                {showAlert && flash?.error && (
+                    <AlertError errors={[flash.error]} />
+                )}
+
                 <div className="flex items-center justify-between">
                     <div className="flex items-center space-x-3">
                         <div className="rounded-lg bg-green-100 p-2">

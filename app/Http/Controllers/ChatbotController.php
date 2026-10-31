@@ -42,7 +42,7 @@ class ChatbotController extends Controller
                 'reply' => $response,
             ]);
         } catch (\Exception $e) {
-            Log::error('Chatbot error: '.$e->getMessage());
+            Log::error('Chatbot error: ' . $e->getMessage());
 
             return response()->json([
                 'reply' => 'Maaf, terjadi gangguan pada sistem kami. Silakan hubungi kami langsung melalui WhatsApp untuk bantuan lebih lanjut. 🙏',
@@ -62,13 +62,13 @@ class ChatbotController extends Controller
         $company = Company::first();
         if ($company) {
             $parts[] = "## Info Perusahaan\n"
-                ."Nama: {$company->name}\n"
-                ."Deskripsi: {$company->description}\n"
-                ."Tentang: {$company->about}\n"
-                ."Telepon: {$company->phone}\n"
-                ."Email: {$company->email}\n"
-                ."Alamat: {$company->address}\n"
-                ."WhatsApp: {$company->whatsapp_number}";
+                . "Nama: {$company->name}\n"
+                . "Deskripsi: {$company->description}\n"
+                . "Tentang: {$company->about}\n"
+                . "Telepon: {$company->phone}\n"
+                . "Email: {$company->email}\n"
+                . "Alamat: {$company->address}\n"
+                . "WhatsApp: {$company->whatsapp_number}";
         }
 
         // Categories (compact list)
@@ -77,12 +77,11 @@ class ChatbotController extends Controller
             $catLines = $categories->map(function ($cat) {
                 $sub = $cat->children->pluck('name')->join(', ');
 
-                return "- {$cat->name}".($sub ? " (sub: {$sub})" : '');
+                return "- {$cat->name}" . ($sub ? " (sub: {$sub})" : '');
             })->join("\n");
             $parts[] = "## Kategori Produk\n{$catLines}";
         }
 
-        // All products (compact list)
         $products = Product::active()
             ->with(['brand', 'categories'])
             ->latest()
@@ -92,20 +91,13 @@ class ChatbotController extends Controller
             $prodLines = $products->map(function ($p, $i) {
                 $brand = $p->brand?->name ?? '-';
                 $cats = $p->categories->pluck('name')->join(', ');
-                $price = 'Rp.'.number_format($p->price, 0, ',', '.');
+                $price = 'Rp.' . number_format($p->price, 0, ',', '.');
                 $desc = \Illuminate\Support\Str::limit(strip_tags($p->description), 80);
 
-                return ($i + 1).". {$p->name}\n   Brand: {$brand}\n   Kategori: {$cats}\n   Harga: {$price}\n   Deskripsi: {$desc}\n   Link: ".url('/products/'.$p->slug);
+                return ($i + 1) . ". {$p->name}\n   Brand: {$brand}\n   Kategori: {$cats}\n   Harga: {$price}\n   Deskripsi: {$desc}\n   Link: " . url('/products/' . $p->slug);
             })->join("\n");
             $parts[] = "## Daftar Produk\n{$prodLines}";
         }
-
-        // Brands
-        // $brands = ProductBrand::all();
-        // if ($brands->isNotEmpty()) {
-        //     $brandNames = $brands->pluck('name')->join(', ');
-        //     $parts[] = "## Brand\n{$brandNames}";
-        // }
 
         return implode("\n\n", $parts);
     }
@@ -118,22 +110,22 @@ class ChatbotController extends Controller
         $baseUrl = url('');
 
         return <<<PROMPT
-Kamu adalah asisten customer service virtual yang ramah dan profesional dari perusahaan furnitur rumah sakit.
+            Kamu adalah asisten customer service virtual yang ramah dan profesional dari perusahaan furnitur rumah sakit.
 
-ATURAN PENTING:
-1. Jawab dalam Bahasa Indonesia yang natural dan ramah, seperti customer service manusia.
-2. Gunakan data di bawah ini untuk menjawab pertanyaan tentang produk, kategori, brand, dan info perusahaan.
-3. Jawab SINGKAT dan PADAT (maksimal 2-3 kalimat) kecuali perlu detail.
-4. Jika tidak tahu jawabannya, jujur katakan dan arahkan ke WhatsApp/kontak perusahaan.
-5. Gunakan emoji secukupnya untuk kesan ramah (1-2 per pesan).
-6. JANGAN mengarang data yang tidak ada di konteks.
-7. Jika customer bertanya soal hal di luar bisnis (misal cuaca, politik), arahkan kembali ke topik produk secara sopan.
-8. Jika user menanyakan produk sertakan link mengarah ke $baseUrl/products/{slug} untuk melihat lebih detail
-9. SAAT MENAMPILKAN LINK: tulis URL langsung apa adanya, JANGAN bungkus dengan tanda kurung siku < > atau karakter lainnya. Contoh benar: https://diljaberkahmakmur.test/products/gorden-anti-bakteri-pvc. Contoh salah: <https://diljaberkahmakmur.test/products/gorden-anti-bakteri-pvc>
-10. Jika menampilkan daftar produk, gunakan format nomor persis seperti di data (1. 2. 3. ...). JANGAN tambahkan tanda strip (-), en dash (–), atau karakter lain setelah nomor. Contoh yang benar: "1. NAMA PRODUK" — Contoh yang salah: "1. NAMA PRODUK –" atau "1.- NAMA PRODUK".
-DATA PERUSAHAAN:
-{$context}
-PROMPT;
+            ATURAN PENTING:
+            1. Jawab dalam Bahasa Indonesia yang natural dan ramah, seperti customer service manusia.
+            2. Gunakan data di bawah ini untuk menjawab pertanyaan tentang produk, kategori, brand, dan info perusahaan.
+            3. Jawab SINGKAT dan PADAT (maksimal 2-3 kalimat) kecuali perlu detail.
+            4. Jika tidak tahu jawabannya, jujur katakan dan arahkan ke WhatsApp/kontak perusahaan.
+            5. Gunakan emoji secukupnya untuk kesan ramah (1-2 per pesan).
+            6. JANGAN mengarang data yang tidak ada di konteks.
+            7. Jika customer bertanya soal hal di luar bisnis (misal cuaca, politik), arahkan kembali ke topik produk secara sopan.
+            8. Jika user menanyakan produk sertakan link mengarah ke $baseUrl/products/{slug} untuk melihat lebih detail
+            9. SAAT MENAMPILKAN LINK: tulis URL langsung apa adanya, JANGAN bungkus dengan tanda kurung siku < > atau karakter lainnya. Contoh benar: https://diljaberkahmakmur.test/products/gorden-anti-bakteri-pvc. Contoh salah: <https://diljaberkahmakmur.test/products/gorden-anti-bakteri-pvc>
+            10. Jika menampilkan daftar produk, gunakan format nomor persis seperti di data (1. 2. 3. ...). JANGAN tambahkan tanda strip (-), en dash (–), atau karakter lain setelah nomor. Contoh yang benar: "1. NAMA PRODUK" — Contoh yang salah: "1. NAMA PRODUK –" atau "1.- NAMA PRODUK".
+            DATA PERUSAHAAN:
+            {$context}
+            PROMPT;
     }
 
     /**
@@ -142,13 +134,9 @@ PROMPT;
     private function callGroq(string $systemPrompt, array $history, string $userMessage): string
     {
         $apiKey = config('services.groq.api_key');
-
-        // Build messages array (OpenAI-compatible format)
         $messages = [
             ['role' => 'system', 'content' => $systemPrompt],
         ];
-
-        // Add recent conversation history (max last 6 turns to save tokens)
         $recentHistory = array_slice($history, -6);
         foreach ($recentHistory as $turn) {
             $role = ($turn['sender'] ?? 'user') === 'bot' ? 'assistant' : 'user';
@@ -157,21 +145,15 @@ PROMPT;
                 'content' => $turn['text'] ?? '',
             ];
         }
-
-        // Add current user message
         $messages[] = [
             'role' => 'user',
             'content' => $userMessage,
         ];
-
         $response = $this->makeGroqRequest($apiKey, $messages);
-
-        // Retry once on rate limit (429) after waiting
         if ($response->status() === 429) {
             sleep(10);
             $response = $this->makeGroqRequest($apiKey, $messages);
         }
-
         if ($response->failed()) {
             Log::error('Groq API error', [
                 'status' => $response->status(),
@@ -179,9 +161,7 @@ PROMPT;
             ]);
             throw new \RuntimeException('Groq API call failed');
         }
-
         $data = $response->json();
-
         return $data['choices'][0]['message']['content']
             ?? 'Maaf, saya tidak bisa memproses permintaan saat ini.';
     }
@@ -192,7 +172,7 @@ PROMPT;
     private function makeGroqRequest(string $apiKey, array $messages)
     {
         return Http::timeout(30)->withHeaders([
-            'Authorization' => 'Bearer '.$apiKey,
+            'Authorization' => 'Bearer ' . $apiKey,
             'Content-Type' => 'application/json',
         ])->post('https://api.groq.com/openai/v1/chat/completions', [
             'model' => 'openai/gpt-oss-120b',
